@@ -1,5 +1,11 @@
 [server]
-port = "18080"
+port = "8080"
+shutdown-port = "8005"
+redirect-port = "8443"
+
+# Configuration for the AJP connector
+#enable-ajp-connector = "true"   # comment out line to disable AJP port
+ajp-port = "8009"
 
 [userdbrealm]
 roles = ["sysadmin", "deployer", "auditor"]
@@ -13,3 +19,12 @@ roles = "manager-gui,manager-script,manager-jmx,manager-status"
 username = "bmeyer"
 password = "habitat"
 roles = "manager-gui"
+
+[host]
+
+[host.localhost]
+unpack-wars = "true"
+auto-deploy = "true"
+
+[host-manager]
+#localhost-only = "true" # comment out line to enable access from all

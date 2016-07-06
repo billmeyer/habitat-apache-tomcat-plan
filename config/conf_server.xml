@@ -19,7 +19,7 @@
      define subcomponents such as "Valves" at this level.
      Documentation at /docs/config/server.html
  -->
-<Server port="8005" shutdown="SHUTDOWN">
+<Server port="{{cfg.server.shutdown-port}}" shutdown="SHUTDOWN">
   <Listener className="org.apache.catalina.startup.VersionLoggerListener" />
   <!-- Security listener. Documentation at /docs/config/listeners.html
   <Listener className="org.apache.catalina.security.SecurityListener" />
@@ -68,7 +68,7 @@
     -->
     <Connector port="{{cfg.server.port}}" protocol="HTTP/1.1"
                connectionTimeout="20000"
-               redirectPort="8443" />
+               redirectPort="{{cfg.server.redirect-port}}" />
     <!-- A "Connector" using the shared thread pool-->
     <!--
     <Connector executor="tomcatThreadPool"
@@ -107,9 +107,10 @@
     </Connector>
     -->
 
+{{#if cfg.server.enable-ajp-connector}}
     <!-- Define an AJP 1.3 Connector on port 8009 -->
-    <Connector port="8009" protocol="AJP/1.3" redirectPort="8443" />
-
+    <Connector port="{{cfg.server.ajp-port}}" protocol="AJP/1.3" redirectPort="{{cfg.server.redirect-port}}" />
+{{/if}}
 
     <!-- An Engine represents the entry point (within Catalina) that processes
          every request.  The Engine implementation for Tomcat stand alone
@@ -141,7 +142,7 @@
       </Realm>
 
       <Host name="localhost"  appBase="webapps"
-            unpackWARs="true" autoDeploy="true">
+            unpackWARs="{{cfg.host.localhost.unpack-wars}}" autoDeploy="{{cfg.host.localhost.auto-deploy}}">
 
         <!-- SingleSignOn valve, share authentication between web applications
              Documentation at: /docs/config/valve.html -->

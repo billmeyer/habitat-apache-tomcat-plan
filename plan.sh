@@ -11,8 +11,6 @@ pkg_expose=(8080 8443)
 #pkg_svc_run="JAVA_HOME=$(hab pkg path core/jdk8); tc/bin/catalina.sh run"
 pkg_svc_user="root"
 
-source_dir=$HAB_CACHE_SRC_PATH/${pkg_name}-${pkg_version}
-
 # There is no default implementation of this callback. You can use it to execute any 
 # arbitrary commands before anything else happens.
 do_begin() {
@@ -81,7 +79,9 @@ do_unpack() {
   build_line "do_unpack() called"
   #do_default_unpack
 
+  local source_dir=$HAB_CACHE_SRC_PATH/${pkg_name}-${pkg_version}
   local unpack_file="$HAB_CACHE_SRC_PATH/$pkg_filename"
+
   mkdir $source_dir
   pushd $source_dir >/dev/null
   tar xz --strip-components=1 -f $unpack_file
