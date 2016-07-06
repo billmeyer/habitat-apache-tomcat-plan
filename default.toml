@@ -1,0 +1,15 @@
+[server]
+port = "18080"
+
+[userdbrealm]
+roles = ["sysadmin", "deployer", "auditor"]
+
+[[userdbrealm.users]]
+username = "admin"
+password = "password"
+roles = "manager-gui,manager-script,manager-jmx,manager-status" 
+
+[[userdbrealm.users]]
+username = "bmeyer"
+password = "habitat"
+roles = "manager-gui"
