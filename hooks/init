@@ -1,40 +1,28 @@
 #!/bin/sh
 
+function debug { if [ ! -z "$DEBUG" ]; then echo "$*"; fi }
+
 echo "Preparing TOMCAT_HOME..."
 
-echo "\$sys.ip        = {{sys.ip}}"
-echo "\$sys.hostname  = {{sys.hostname}}"
-echo "\$pkg.origin    = {{pkg.origin}}"
-echo "\$pkg.name      = {{pkg.name}}"
-echo "\$pkg.version   = {{pkg.version}}"
-echo "\$pkg.release   = {{pkg.release}}"
-echo "\$pkg.ident     = {{pkg.ident}}"
-echo "\$pkg.deps      = {{pkg.deps}}"
-echo "\$pkg.exposes   = {{pkg.exposes}}"
-echo "\$pkg.svc_path          = {{pkg.svc_path}}"
-echo "\$pkg.svc_config_path   = {{pkg.svc_config_path}}"
-echo "\$pkg.svc_data_path     = {{pkg.svc_data_path}}"
-echo "\$pkg.svc_files_path    = {{pkg.svc_files_path}}"
-echo "\$pkg.svc_static_path   = {{pkg.svc_static_path}}"
-echo "\$pkg.svc_var_path      = {{pkg.svc_var_path}}"
+debug "\$sys.ip        = {{sys.ip}}"
+debug "\$sys.hostname  = {{sys.hostname}}"
+debug "\$pkg.origin    = {{pkg.origin}}"
+debug "\$pkg.name      = {{pkg.name}}"
+debug "\$pkg.version   = {{pkg.version}}"
+debug "\$pkg.release   = {{pkg.release}}"
+debug "\$pkg.ident     = {{pkg.ident}}"
+debug "\$pkg.deps      = {{pkg.deps}}"
+debug "\$pkg.exposes   = {{pkg.exposes}}"
+debug "\$pkg.svc_path          = {{pkg.svc_path}}"
+debug "\$pkg.svc_config_path   = {{pkg.svc_config_path}}"
+debug "\$pkg.svc_data_path     = {{pkg.svc_data_path}}"
+debug "\$pkg.svc_files_path    = {{pkg.svc_files_path}}"
+debug "\$pkg.svc_static_path   = {{pkg.svc_static_path}}"
+debug "\$pkg.svc_var_path      = {{pkg.svc_var_path}}"
 
 # Move directories that ship in the package into place
 
 cp -R {{pkg.path}}/tc {{pkg.svc_var_path}}/
-
-#for dir in bin etc tomcat webapps
-#do
-#  cp -R {{pkg.path}}/$dir {{pkg.svc_var_path}}/
-#done
-
-# Create required ephemeral directories
-# for dir in backup data logs
-# do
-#   mkdir -p {{pkg.svc_var_path}}/$dir
-# done
-
-# Set license data
-# echo {{cfg.license}} > {{pkg.svc_var_path}}/etc/artifactory.lic
 
 # Symlink config files into $TOMCAT_HOME/conf
 for file in $(cd {{pkg.svc_config_path}}; ls -1)
