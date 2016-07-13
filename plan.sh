@@ -31,15 +31,15 @@ do_download() {
 
   # downloading from bitbucket with wget results in a 403.
   # So then we implement our own `do_download` with `curl`.
-  pushd $HAB_CACHE_SRC_PATH > /dev/null
+  pushd "$HAB_CACHE_SRC_PATH" > /dev/null
   if [[ -f $pkg_filename ]]; then
     build_line "Found previous file '${pkg_filename}', attempting to re-use"
-    if verify_file $pkg_filename $pkg_shasum; then
+    if verify_file "$pkg_filename $pkg_shasum"; then
       build_line "Using cached and verified '${pkg_filename}'"
       return 0
     else
       build_line "Clearing previous '${pkg_filename}' and re-attempting download"
-      rm -fv $pkg_filename
+      rm -fv "$pkg_filename"
     fi
   fi
 
@@ -82,9 +82,9 @@ do_unpack() {
   local source_dir=$HAB_CACHE_SRC_PATH/${pkg_name}-${pkg_version}
   local unpack_file="$HAB_CACHE_SRC_PATH/$pkg_filename"
 
-  mkdir $source_dir
-  pushd $source_dir >/dev/null
-  tar xz --strip-components=1 -f $unpack_file
+  mkdir "$source_dir"
+  pushd "$source_dir" >/dev/null
+  tar xz --strip-components=1 -f "$unpack_file"
 
   popd > /dev/null
   return 0
@@ -121,8 +121,8 @@ do_install() {
   #do_default_install
 
     build_line "Performing install"
-    mkdir -p ${pkg_prefix}/tc
-    cp -vR * ${pkg_prefix}/tc
+    mkdir -p "${pkg_prefix}/tc"
+    cp -vR ./* "${pkg_prefix}/tc"
 }
 
 # The default implementation is to strip any binaries in $pkg_prefix of their debugging 
